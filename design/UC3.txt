@@ -14,34 +14,34 @@ activate UI
 activate MainMenuState
 
 User->UI: PressMenuButton()
-UI->MainWindow(Device): Signal()
+UI-->MainWindow(Device): Signal()
 
 MainWindow(Device)->MainMenuState: handlePressMenuButton()
-MainMenuState->MainWindow(Device): return(MainMenuState)
+MainMenuState-->MainWindow(Device): return(MainMenuState)
 
 MainWindow(Device)->MainWindow(Device): changeState(MainMenuState)
 
 MainWindow(Device)->UI: updateUI(int currentState)
-UI->User: displaying main menu
+UI-->User: displaying main menu
 User->UI: pressSelectorButton()
 
-UI->MainWindow(Device): Signal()
+UI-->MainWindow(Device): Signal()
 MainWindow(Device)->MainMenuState: handlePressSelectorButton()
 
-MainMenuState->MainWindow(Device): return(SessionSettingsState)
+MainMenuState-->MainWindow(Device): return(SessionSettingsState)
 MainWindow(Device)->MainWindow(Device): changeState(SessionSettingsState)
 
 deactivate MainMenuState
 activate SessionSettingsState
 
 MainWindow(Device)->UI: updateUI(int currentState)
-UI->User: displaying settings page
+UI-->User: displaying settings page
 
 User->UI: pressSelectorButton()
-UI->MainWindow(Device): Signal()
+UI-->MainWindow(Device): Signal()
 
 MainWindow(Device)->SessionSettingsState: handlePressSelectorButton()
-SessionSettingsState->MainWindow(Device): return(ChangeBreathState)
+SessionSettingsState-->MainWindow(Device): return(ChangeBreathState)
 
 MainWindow(Device)->MainWindow(Device): changeState(ChangeBreathState)
 
@@ -49,7 +49,7 @@ deactivate SessionSettingsState
 activate ChangeBreathState
 
 MainWindow(Device)->UI: updateUI(int currentState)
-UI->User: displaying menu for changing breath pace
+UI-->User: displaying menu for changing breath pace
 
 
 loop Until desired breath pace is reached
@@ -62,12 +62,12 @@ UI-->User:selector moves down to next breath pace option
 end 
 
 User->ChangeBreathState: pressSelectorButton()
-ChangeBreathState->MainWindow(Device): Signal()
+ChangeBreathState-->MainWindow(Device): Signal()
 
 MainWindow(Device)->ChangeBreathState: handlePressSelectorButton()
-ChangeBreathState->MainWindow(Device):changeBreathPace(newPace)
+ChangeBreathState-->MainWindow(Device):changeBreathPace(newPace)
 
-ChangeBreathState->MainWindow(Device): return(MainMenuState)
+ChangeBreathState-->MainWindow(Device): return(MainMenuState)
 MainWindow(Device)->MainWindow(Device): changeState(MainMenuState)
 
 
@@ -75,4 +75,4 @@ deactivate ChangeBreathState
 activate MainMenuState
 
 MainWindow(Device)->UI: updateUI(int currentState)
-UI->User: breath pace successfully changed
+UI-->User: breath pace successfully changed

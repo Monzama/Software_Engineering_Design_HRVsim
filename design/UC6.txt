@@ -15,12 +15,14 @@ User->SessionInProgressState: createNewSession()
 
 activate SessionInProgressState
 
-SessionInProgressState->User: created new session
+SessionInProgressState-->User: created new session
 MainWindow(Device)->MainWindow(Device): drainBattery()
 
 MainWindow(Device)->UI: warnBatteryCritical()
-UI->User: battery critically low warning
-
+UI-->User: battery critically low warning
+MainWindow(Device)->MainWindow(Device): drainBattery()
+MainWindow(Device)->UI:batteryOutage()
+User<--UI:battery out saving session and closing device
 MainWindow(Device)->SessionInProgressState: saveSessionInfoToDevice()
 SessionInProgressState->Session:update()
 activate Session
@@ -29,8 +31,8 @@ MainWindow(Device)->SessionInProgressState: endSession()
 deactivate SessionInProgressState
 deactivate Session
 
-UI->User: saved and ended session
+UI-->User: saved and ended session
 MainWindow(Device)->MainWindow(Device): changeState(OffState)
 activate OffState
 MainWindow(Device)->UI:updateUI(int currentState)
-UI->User:device turns off
+UI-->User:device turns off
