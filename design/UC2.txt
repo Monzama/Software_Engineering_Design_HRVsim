@@ -1,0 +1,81 @@
+title During / Ending a Session
+
+participant User
+participant SessionInProgressState
+participant UI
+
+
+participant aSession
+
+participant Sensor
+participant MainWindow(Device)
+
+
+
+activate User
+activate MainWindow(Device)
+activate SessionInProgressState
+activate Sensor
+activate UI
+activate aSession
+
+
+loop every second
+SessionInProgressState->Sensor: requestData()
+
+Sensor->SessionInProgressState: return(float heartRate)
+
+SessionInProgressState->aSession: update(float heartRat)
+
+
+SessionInProgressState<-aSession:return
+
+alt Every 5 iterations
+SessionInProgressState->SessionInProgressState: calculateCoherence()
+
+SessionInProgressState->aSession:setCoherence
+SessionInProgressState->SessionInProgressState: calculateAchievement()
+SessionInProgressState->aSession:setAchievement
+end
+
+aSession<-MainWindow(Device): getData()
+
+
+
+alt on new coherence level
+
+MainWindow(Device)-:1>MainWindow(Device): updateLed(int level)
+
+User<-MainWindow(Device):qInfo("Beep")
+end
+
+
+MainWindow(Device)-:1>MainWindow(Device): updateGraph(float heartRate)
+UI<-MainWindow(Device):setText("<heartRate>")
+MainWindow(Device)-:1>MainWindow(Device): updateTime(int time)
+UI<-MainWindow(Device):setText("<time>")
+MainWindow(Device)-:1>MainWindow(Device): updateMetrics(float coherence,float ahievement)
+
+UI<-MainWindow(Device):setText("<coherence>, <achievement>")
+
+
+UI->User: updated data
+end 
+
+User->UI: pressSelectorButton()
+
+
+UI->MainWindow(Device):Signal()
+MainWindow(Device)->SessionInProgressState: handlePressSelectorButton()
+
+
+SessionInProgressState->MainWindow(Device):return(SessionEndSummaryState)
+MainWindow(Device)<-MainWindow(Device): saveSession()
+
+
+MainWindow(Device)->MainWindow(Device): changeState(int SessionEnd)
+
+deactivate SessionInProgressState
+
+UI<-MainWindow(Device):DisplaySummary(Session* currentSession)
+UI->User: ended session summary

@@ -1,0 +1,75 @@
+title Main/ General Use
+
+participant User
+participant MainWindow(Device)
+participant UI
+
+participant OffState
+participant MainMenuState
+
+activate OffState
+
+activate User
+
+User->MainWindow(Device): turnOn()
+
+activate MainWindow(Device)
+
+MainWindow(Device)->OffState: handlePressPowerButton()
+
+OffState->MainWindow(Device): changeStateRequest(MMS)
+
+MainWindow(Device)->MainMenuState: changeState(MainMenuState)
+
+
+deactivate OffState
+
+activate MainMenuState
+
+
+
+MainMenuState->UI: updateDisplay()
+
+activate UI
+
+UI->User: shows main menu
+
+
+User->MainWindow(Device): pressSelectorButton()
+
+MainWindow(Device)->MainMenuState: handlePressSelectorButton()
+
+
+
+participant SessionInProgressState
+participant aSession
+
+
+MainMenuState->MainWindow(Device): changeStateRequest(SessionIP)
+
+MainWindow(Device)->SessionInProgressState:changeState(SessionInProgressState)
+
+
+deactivate MainMenuState
+
+activate SessionInProgressState
+
+SessionInProgressState->aSession:createSession()
+activate aSession
+
+SessionInProgressState->UI: updateDisplay()
+
+participant HRButton
+participant Sensor
+
+
+
+
+UI->User: shows session screen
+User->Sensor: attach sensor
+activate Sensor
+Sensor->SessionInProgressState: sensorConncted()
+SessionInProgressState->HRButton: lights up
+activate HRButton
+
+HRButton->User: sees HR indicator light up

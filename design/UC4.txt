@@ -1,0 +1,81 @@
+title Reset Data
+
+participant User
+participant MainWindow(Device)
+participant UI
+participant MainMenuState
+participant SessionSettingsState
+participant SessionResetState
+participant allSessions
+participant SessionHistoryState
+
+activate User
+activate MainWindow(Device)
+activate UI
+activate MainMenuState
+
+User->UI: PressMenuButton()
+UI->MainWindow(Device): Signal()
+
+MainWindow(Device)->MainMenuState: handlePressMenuButton()
+MainMenuState->MainWindow(Device): return(MainMenuState)
+
+MainWindow(Device)->MainWindow(Device): changeState(MainMenuState)
+
+MainWindow(Device)->UI: updateUI(int currentState)
+UI->User: displaying main menu
+User->UI: pressSelectorButton()
+
+UI->MainWindow(Device): Signal()
+MainWindow(Device)->MainMenuState: handlePressSelectorButton()
+
+MainMenuState->MainWindow(Device): return(SessionSettingsState)
+MainWindow(Device)->MainWindow(Device): changeState(SessionSettingsState)
+
+deactivate MainMenuState
+activate SessionSettingsState
+
+MainWindow(Device)->UI: updateUI(int currentState)
+UI->User: displaying settings page
+
+User->UI: pressSelectorButton()
+UI->MainWindow(Device): Signal()
+
+MainWindow(Device)->SessionSettingsState: handlePressSelectorButton()
+SessionSettingsState->MainWindow(Device): return(SessionResetState)
+
+MainWindow(Device)->MainWindow(Device): changeState(SessionResetState)
+
+deactivate SessionSettingsState
+activate SessionResetState
+
+MainWindow(Device)->UI: updateUI(int currentState)
+UI->User: displaying confirmation menu for settings reset
+
+User->SessionResetState: pressSelectorButton()
+SessionResetState->MainWindow(Device): Signal()
+
+MainWindow(Device)->SessionResetState: handlePressSelectorButton()
+SessionResetState->MainWindow(Device): return(SessionSettingsState)
+
+MainWindow(Device)->MainWindow(Device): resetSessionSettings()
+MainWindow(Device)->allSessions:delete()
+
+activate allSessions
+allSessions->MainWindow(Device):acknowledge()
+deactivate allSessions
+
+
+MainWindow(Device)->SessionHistoryState:clearMenu()
+activate SessionHistoryState
+SessionHistoryState->MainWindow(Device):acknowledge()
+deactivate SessionHistoryState
+
+MainWindow(Device)->MainWindow(Device): changeState(SessionSettingsState)
+
+
+deactivate SessionResetState
+activate SessionSettingsState
+
+MainWindow(Device)->UI: updateUI(int currentState)
+UI->User: reset settings to default

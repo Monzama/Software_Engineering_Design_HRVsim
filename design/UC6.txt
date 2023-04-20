@@ -1,0 +1,36 @@
+title Battery Outage
+
+participant User
+participant MainWindow(Device)
+participant UI
+participant SessionInProgressState
+participant OffState
+participant Session
+
+activate User
+activate MainWindow(Device)
+activate UI
+
+User->SessionInProgressState: createNewSession()
+
+activate SessionInProgressState
+
+SessionInProgressState->User: created new session
+MainWindow(Device)->MainWindow(Device): drainBattery()
+
+MainWindow(Device)->UI: warnBatteryCritical()
+UI->User: battery critically low warning
+
+MainWindow(Device)->SessionInProgressState: saveSessionInfoToDevice()
+SessionInProgressState->Session:update()
+activate Session
+MainWindow(Device)->SessionInProgressState: endSession()
+
+deactivate SessionInProgressState
+deactivate Session
+
+UI->User: saved and ended session
+MainWindow(Device)->MainWindow(Device): changeState(OffState)
+activate OffState
+MainWindow(Device)->UI:updateUI(int currentState)
+UI->User:device turns off
