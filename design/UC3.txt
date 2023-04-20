@@ -1,0 +1,78 @@
+title Changing Breath Pace
+
+participant User
+participant MainWindow(Device)
+participant UI
+participant MainMenuState
+participant SessionSettingsState
+participant ChangeBreathState
+
+
+activate User
+activate MainWindow(Device)
+activate UI
+activate MainMenuState
+
+User->UI: PressMenuButton()
+UI->MainWindow(Device): Signal()
+
+MainWindow(Device)->MainMenuState: handlePressMenuButton()
+MainMenuState->MainWindow(Device): return(MainMenuState)
+
+MainWindow(Device)->MainWindow(Device): changeState(MainMenuState)
+
+MainWindow(Device)->UI: updateUI(int currentState)
+UI->User: displaying main menu
+User->UI: pressSelectorButton()
+
+UI->MainWindow(Device): Signal()
+MainWindow(Device)->MainMenuState: handlePressSelectorButton()
+
+MainMenuState->MainWindow(Device): return(SessionSettingsState)
+MainWindow(Device)->MainWindow(Device): changeState(SessionSettingsState)
+
+deactivate MainMenuState
+activate SessionSettingsState
+
+MainWindow(Device)->UI: updateUI(int currentState)
+UI->User: displaying settings page
+
+User->UI: pressSelectorButton()
+UI->MainWindow(Device): Signal()
+
+MainWindow(Device)->SessionSettingsState: handlePressSelectorButton()
+SessionSettingsState->MainWindow(Device): return(ChangeBreathState)
+
+MainWindow(Device)->MainWindow(Device): changeState(ChangeBreathState)
+
+deactivate SessionSettingsState
+activate ChangeBreathState
+
+MainWindow(Device)->UI: updateUI(int currentState)
+UI->User: displaying menu for changing breath pace
+
+
+loop Until desired breath pace is reached
+User->UI: pressDownButton()
+UI-->MainWindow(Device): Signal()
+MainWindow(Device)->ChangeBreathState: handlePressDownButton()
+ChangeBreathState-->MainWindow(Device): return()
+MainWindow(Device)->UI: moveSelectorDown()
+UI-->User:selector moves down to next breath pace option
+end 
+
+User->ChangeBreathState: pressSelectorButton()
+ChangeBreathState->MainWindow(Device): Signal()
+
+MainWindow(Device)->ChangeBreathState: handlePressSelectorButton()
+ChangeBreathState->MainWindow(Device):changeBreathPace(newPace)
+
+ChangeBreathState->MainWindow(Device): return(MainMenuState)
+MainWindow(Device)->MainWindow(Device): changeState(MainMenuState)
+
+
+deactivate ChangeBreathState
+activate MainMenuState
+
+MainWindow(Device)->UI: updateUI(int currentState)
+UI->User: breath pace successfully changed
