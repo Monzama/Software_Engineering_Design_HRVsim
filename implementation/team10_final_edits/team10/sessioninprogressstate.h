@@ -13,8 +13,8 @@
 #include "session.h"
 #include "sensor.h"
 
-class SessionInProgressState: public State
-{
+class SessionInProgressState: public State{
+    
 public:
 
     SessionInProgressState(QString items, QString title);
@@ -27,7 +27,7 @@ public:
     void endSession();
 
     Session** createNewSession(); 
-    int updateHRGraph(int breathRate); //returns next HR, updates session object
+    int updateHRGraph(int breathRate); // returns next HR, updates session object
     
 private:
 
@@ -39,7 +39,7 @@ private:
     QString startTime;
     QTimer sessionTimer;
     int totalSessions;
-    int coherenceTimer; //seconds passed since last coherence calcultation
+    int coherenceTimer; // seconds passed since last coherence calcultation
 
 };
 
