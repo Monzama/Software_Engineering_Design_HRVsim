@@ -235,6 +235,8 @@ void MainWindow::pressBackButton() {
 //handles all menu button presses
 void MainWindow::pressMenuButton() {
     switch (currentState->handlePressMenuButton()) {
+        case -1:
+            break;
         case 1:
             //process menu
             currentState = (*states)[1];
@@ -357,24 +359,25 @@ void MainWindow::lightLEDs(int level){
     ui->blueButton->setGraphicsEffect(noGlow);
     ui->greenButton->setGraphicsEffect(noGlow);
     ui->redButton->setGraphicsEffect(noGlow);
+
+    auto effectR = new QGraphicsDropShadowEffect();
+    auto effectB = new QGraphicsDropShadowEffect();
+    auto effectG = new QGraphicsDropShadowEffect();
     
     switch (level) {
         case 0:
-            auto effectR = new QGraphicsDropShadowEffect();
             effectR->setOffset(.0);
             effectR->setBlurRadius(20.0);
             effectR->setColor(Qt::red);
             ui->redButton->setGraphicsEffect(effectR);
             break;
         case 1:
-            auto effectB = new QGraphicsDropShadowEffect();
             effectB->setOffset(.0);
             effectB->setBlurRadius(20.0);
             effectB->setColor(Qt::blue);
             ui->blueButton->setGraphicsEffect(effectB);
             break;
         case 2:
-            auto effectG = new QGraphicsDropShadowEffect();
             effectG->setOffset(.0);
             effectG->setBlurRadius(20.0);
             effectG->setColor(Qt::green);

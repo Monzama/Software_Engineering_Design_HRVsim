@@ -674,13 +674,13 @@ QPushButton:pressed {
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-image: url(:/icons/electrodeOff.svg);
+image: url(:/icons/electrodeOn.svg);
 background-color: #343638;
 border-radius: 20px;
 }
 
 QPushButton::checked {
-image: url(:/icons/electrodeOn.svg);
+image: url(:/icons/electrodeOff.svg);
 background-color: #343638;
 border-radius: 20px;
 }</string>
