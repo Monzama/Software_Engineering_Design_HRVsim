@@ -5,19 +5,17 @@
 #include <QDebug>
 #include "state.h"
 
-class SessionActionsState: public State
-{
-public:
-    SessionActionsState(QString items, QString title);
-    void printSelection(QString selectedItem);
+class SessionActionsState: public State{
 
-    //state button press returns
+public:
+    
+    SessionActionsState(QString items, QString title);
+
     int handlePressPowerButton();
     int handlePressMenuButton();
     int handlePressBackButton();
-    int handlePressLeftButton();
-    int handlePressRightButton();
     int handlePressSelectorButton();
+    
 };
 
 #endif // SESSIONACTIONSSTATE_H
