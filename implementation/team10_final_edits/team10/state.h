@@ -5,8 +5,8 @@
 #include <QListWidget>
 #include "session.h"
 
-class State : public QObject
-{
+class State : public QObject{
+
 public:
 
     State(QString items, QString title);
