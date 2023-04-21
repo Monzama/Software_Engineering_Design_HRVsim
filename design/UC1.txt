@@ -6,6 +6,7 @@ participant UI
 
 participant OffState
 participant MainMenuState
+participant Sensor
 
 activate OffState
 
@@ -33,8 +34,14 @@ MainWindow(Device)->UI:updateUI(int currentState)
 
 UI-->User: shows main menu
 
+User->UI: toggleSensor
+UI->MainWindow(Device): Signal()
+MainWindow(Device)->Sensor:sensorConnected
+activate Sensor
+UI->HRButton: lights up
+activate HRButton
 
-
+UI-->User: sees HR indicator light up
 User->UI: pressSelectorButton()
 UI-->MainWindow(Device): Signal()
 MainWindow(Device)->MainMenuState: handlePressSelectorButton()
@@ -60,17 +67,9 @@ SessionInProgressState->aSession:createSession()
 activate aSession
 
 participant HRButton
-participant Sensor
+
 
 UI-->User: shows session screen
 MainWindow(Device)->MainWindow(Device): startBreathPacer(int level)
 
 MainWindow(Device)-->User: qInfo("breath pacer started") 
-
-User->Sensor: attach sensor
-activate Sensor
-Sensor-->SessionInProgressState: sensorConncted()
-SessionInProgressState->HRButton: lights up
-activate HRButton
-
-HRButton-->User: sees HR indicator light up

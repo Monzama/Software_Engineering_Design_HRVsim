@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-04-20T19:50:56.837Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="49Sl8imakbM6gQlIJhBM" version="21.1.8" type="device">
+<mxfile host="app.diagrams.net" modified="2023-04-21T03:50:01.637Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="tWmXte5XcfcLmRYjvyq5" version="21.1.8" type="device">
   <diagram name="Page-1" id="iYqUfFiw8Jmmbv6zQ1Do">
-    <mxGraphModel dx="1246" dy="1908" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1108" dy="1908" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -214,7 +214,7 @@
         <mxCell id="FPXbHPHIGBSnNfL1sniV-57" value="+ endSession(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="ISorvKZLmLzE2qO5nAt--143">
           <mxGeometry y="268" width="270" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="FPXbHPHIGBSnNfL1sniV-65" value="+ calculateCoherence(in hrData:&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; QVector&amp;lt;float&amp;gt;): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="ISorvKZLmLzE2qO5nAt--143">
+        <mxCell id="FPXbHPHIGBSnNfL1sniV-65" value="- calculateCoherence(in hrData:&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; QVector&amp;lt;float&amp;gt;): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="ISorvKZLmLzE2qO5nAt--143">
           <mxGeometry y="294" width="270" height="42" as="geometry" />
         </mxCell>
         <mxCell id="ISorvKZLmLzE2qO5nAt--167" value="SessionSummaryState" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -447,7 +447,7 @@
         </mxCell>
         <mxCell id="zsQ9sIeDxZdNcWnOAN6T-158" value="0..*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="zsQ9sIeDxZdNcWnOAN6T-157" vertex="1" connectable="0">
           <mxGeometry x="0.6369" y="-1" relative="1" as="geometry">
-            <mxPoint y="-11" as="offset" />
+            <mxPoint x="11" y="-20" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="zsQ9sIeDxZdNcWnOAN6T-164" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.001;entryY=0.565;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1" source="FPXbHPHIGBSnNfL1sniV-56">

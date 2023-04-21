@@ -1,0 +1,81 @@
+participant User
+participant MainWindow(Device)
+participant UI
+participant MainMenuState
+participant SessionHistoryState
+participant SessionSummaryState
+participant aSession
+
+activate User
+activate MainWindow(Device)
+activate UI
+activate MainMenuState
+
+User->UI: PressMenuButton()
+UI-->MainWindow(Device): Signal()
+
+MainWindow(Device)->MainMenuState: handlePressMenuButton()
+MainMenuState-->MainWindow(Device): return(MainMenuState)
+
+MainWindow(Device)->MainWindow(Device): changeState(MainMenuState)
+
+MainWindow(Device)->UI: updateUI(int currentState)
+UI-->User: displaying main menu
+
+loop twice (until reached history option)
+User->UI: pressDownButton()
+UI-->MainWindow(Device): Signal()
+MainWindow(Device)->MainMenuState: handlePressDownButton()
+MainMenuState-->MainWindow(Device): return()
+MainWindow(Device)->UI: moveSelectorDown()
+UI-->User:selector moves down
+end
+
+User->UI: pressSelectorButton()
+UI-->MainWindow(Device): Signal()
+MainWindow(Device)->MainMenuState: handlePressSelectorButton()
+
+MainMenuState-->MainWindow(Device): return(SessionHistoryState)
+MainWindow(Device)->MainWindow(Device): changeState(SessionHistoryState)
+
+deactivate MainMenuState
+activate SessionHistoryState
+
+MainWindow(Device)->UI: updateUI(int currentState)
+UI-->User: displaying history page
+
+User->UI: pressSelectorButton()
+UI-->MainWindow(Device): Signal()
+
+MainWindow(Device)->SessionHistoryState: handlePressSelectorButton()
+SessionHistoryState-->MainWindow(Device): return(SessionSummaryState(index))
+
+MainWindow(Device)->MainWindow(Device): changeState(SessionResetState)
+
+deactivate SessionHistoryState
+activate SessionSummaryState
+
+MainWindow(Device)->UI: updateUI(int currentState)
+
+UI-->User: displaying specific session info
+
+User->UI: pressSelectorButton()
+UI-->MainWindow(Device): Signal()
+MainWindow(Device)->SessionSummaryState: handlePressSelectorButton()
+SessionSummaryState-->MainWindow(Device): return(deleteConfirmation)
+
+MainWindow(Device)->MainWindow(Device): deleteSession(Session)
+
+MainWindow(Device)->aSession:delete()
+activate aSession
+
+aSession-->MainWindow(Device):acknowledge()
+deactivate aSession
+
+MainWindow(Device)->MainWindow(Device): changeState(SessionHistoryState)
+
+deactivate SessionSummaryState
+activate SessionHistoryState
+
+MainWindow(Device)->UI: updateUI(int currentState)
+UI-->User: session has been deleted
