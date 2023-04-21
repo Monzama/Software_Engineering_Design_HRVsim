@@ -6,8 +6,8 @@
 #include <QDebug>
 #include "state.h"
 
-class SessionSummaryState: public State
-{
+class SessionSummaryState: public State{
+
 public:
 
     SessionSummaryState(QString items, QString title);
