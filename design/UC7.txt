@@ -1,0 +1,30 @@
+title Loss Of Connection
+
+participant User
+participant MainWindow(Device)
+participant SessionInProgressState
+participant Sensor
+participant UI
+
+activate User
+activate MainWindow(Device)
+activate SessionInProgressState
+activate Sensor
+activate UI
+
+User->UI: PressContactBox()
+UI-->MainWindow(Device): Signal()
+
+
+MainWindow(Device)->MainWindow(Device): toggleSensor(bool checked)
+MainWindow(Device)->SessionInProgressState:setSensor(contactBox->isChecked)
+alt true
+SessionInProgressState->Sensor: contactSensor->connectSensor()
+else false
+SessionInProgressState->Sensor: simulateDisconnectSensor()
+end
+
+MainWindow(Device)->MainWindow(Device): pauseSession(contactBox->isChecked)
+alt true, stop timers
+else false, start timers
+end
