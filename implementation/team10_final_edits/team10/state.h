@@ -16,8 +16,6 @@ public:
     virtual int handlePressPowerButton() = 0;
     virtual int handlePressMenuButton() = 0;
     virtual int handlePressBackButton() = 0;
-    virtual int handlePressLeftButton() = 0;
-    virtual int handlePressRightButton() = 0;
     virtual int handlePressSelectorButton() = 0;
 
     virtual Session** createNewSession(){}
