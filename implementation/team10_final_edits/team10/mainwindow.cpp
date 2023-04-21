@@ -1,13 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-//constructor, handles various initialization, may need to move some
-{
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow){
+    
     ui->setupUi(this);
-    breathSetting = 3333;//the time setting is actually this setting times 3
+    breathSetting = 3333; // default time setting is actually this setting times 3
     ui->breathBar->setMaximum(breathSetting/100);
     isHistorySummary = false;
 
@@ -26,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->powerButton, SIGNAL(released()), this, SLOT(pressPowerButton()));
 
     setOffVisible(true);
+    
 }
 
 //deconstructor, handles memory freeing
@@ -67,12 +65,10 @@ void MainWindow::setUpBreath(){
     ui->breathBar->reset();
     ui->breathBar->setFormat("default");
     breathState = 0;
-    //set up breath timer for states
-    connect(&breathTimer, SIGNAL(timeout()), this, SLOT(updateBreathState()));
-    //updateBreathState();
-    //set up breath bar timer
-    connect(&breathingTimer, SIGNAL(timeout()), this, SLOT(updateBreathBar()));
-    breathingTimer.start(100); // make adjustable + creates a delay at the beginning
+    connect(&breathTimer, SIGNAL(timeout()), this, SLOT(updateBreathState())); // set up timer
+    connect(&breathingTimer, SIGNAL(timeout()), this, SLOT(updateBreathBar())); // set up bar state swap
+    breathingTimer.start(100); // refresh rate
+    
 }
 
 //state instantiation and setup
@@ -92,9 +88,6 @@ void MainWindow::setUpStatesMenus(){
 
 }
 
-
-////Updaters
-///
 //updates the breath progress bar based on breath state
 void MainWindow::updateBreathBar(){
     //inhale
@@ -135,7 +128,6 @@ void MainWindow::updateBreathState(bool reset){
         //ui->breathBar->setValue(ui->breathBar->maximum());
         ui->breathBar->setFormat("hold");
         breathState = 2;
-
     //hold to exhale
     } else if(breathState == 2){
         ui->breathBar->setFormat("exhale");
@@ -157,7 +149,6 @@ void MainWindow::drainBattery(){
         qInfo("BATTERY CRITICAL, PLEASE CHARGE NOW");
     }else if (lastVal ==2){
         qInfo("BATTERY POWER FAILING, EMERGENCY SAVE IN PROGRESS");
-
     }else if (lastVal ==1){
         pressPowerButton();
     }
@@ -168,13 +159,9 @@ void MainWindow::chargeBattery(){
     ui->batteryBar->setValue(100);
 }
 
-
-////UI event handlers
-///
 //handles all upbutton presses
 void MainWindow::pressUpButton() { // copied from denas
     if (activeQListWidget->isHidden()){return;}
-
     int nextIndex = activeQListWidget->currentRow() - 1;
     if (nextIndex < 0) {
         nextIndex = activeQListWidget->count() - 1;
@@ -185,22 +172,17 @@ void MainWindow::pressUpButton() { // copied from denas
 //handles all downbutton presses
 void MainWindow::pressDownButton() { // copied from denas
     if (activeQListWidget->isHidden()){return;}
-
     int nextIndex = activeQListWidget->currentRow() + 1;
     if (nextIndex > activeQListWidget->count() - 1) {
         nextIndex = 0;
     }
     activeQListWidget->setCurrentRow(nextIndex);
-
 }
 
 void MainWindow::noAction() { qInfo() << "nothing to select in this direction"; }
 
 //handles all power button presses
 void MainWindow::pressPowerButton(){
-    //most states will do the same thing,
-    //transition to off screen, does not save session
-
     int i = currentState->handlePressPowerButton();
     //if off, go to main menu
     if (i==0){
@@ -214,8 +196,8 @@ void MainWindow::pressPowerButton(){
     }else if (i==1){
         setOffVisible(true);
         currentState = (*states)[0];
-    }else if (i == 2){
-        //save the session amd power off device, same as battery outage
+    }else if (i==2){
+        //save the session and power off device, same as battery outage
         pressSelectionButton();
         setOffVisible(true);
         currentState = (*states)[0];
@@ -253,20 +235,14 @@ void MainWindow::pressBackButton() {
 //handles all menu button presses
 void MainWindow::pressMenuButton() {
     switch (currentState->handlePressMenuButton()) {
-    case -1:
-        //do nothing
-        break;
-    case 1:
-        //process menu
-        currentState = (*states)[1];
-        setMenuVisible(true);
-        break;
-
-    default:
-        break;
+        case 1:
+            //process menu
+            currentState = (*states)[1];
+            setMenuVisible(true);
+            break;
+        default:
+            break;
     }
-
-
 }
 
 //handles all selectbutton presses
@@ -277,7 +253,6 @@ void MainWindow::pressSelectionButton() {
         // code block
         //qInfo("do nothing?off state");
         break;
-
       case 0:
         //qInfo("main menu state");//debug
         //process menu change
@@ -298,12 +273,10 @@ void MainWindow::pressSelectionButton() {
         displaySummary(currentSession);
         qInfo() << "Session ended, to delete this session press OK";
         break;
-
       case 2:
         //qInfo("Settings state");//debug
         settingSelection(index);//process settings submenu selection
         break;
-
       case 3:
         //qInfo("history list state");
         currentState =(*states)[3];
@@ -314,7 +287,6 @@ void MainWindow::pressSelectionButton() {
         //probably add a function to process this for simplicity
         qInfo() << "Viewing Session" << index << "to delete this session press OK";
         break;
-
       case 4:
         //qInfo("summary state");
         updateMenu("Delete Session?", {"Yes","No"});
@@ -322,7 +294,6 @@ void MainWindow::pressSelectionButton() {
         currentState->setDelete(true);
         //offer session delete
         break;
-
       case 5:
         //qInfo("Delete session confirmation");//probably delete option in summary state
         if (index ==1){
@@ -341,11 +312,9 @@ void MainWindow::pressSelectionButton() {
             }else{
                 pressMenuButton();
             }
-
             //return to history list
         }
         break;
-
       case 6:
         //qInfo("Breath selection");//debug
         breathSetting = ((index+1)*1000)/3;//change breath setting based on selection
@@ -370,102 +339,91 @@ void MainWindow::pressSelectionButton() {
     }
 }
 
-//handles contact sensor presses
+// handles contact sensor presses
 void MainWindow::toggleSensor(bool checked){
-
-    //if(checked){ ui->contactBox->setChecked(false); qInfo() << "nope";}
-    //else{ ui->contactBox->setChecked(true); qInfo() << "in"; }
     (*states)[2]->setSensor(ui->contactBox->isChecked());
     //pause and unpause if in a session
     if (currentState == (*states)[2]){
-        pauseSession(ui->contactBox->isChecked());//toggles session
+        pauseSession(ui->contactBox->isChecked());
     }
 }
 
 //toggles led bloom affect from button toggle
 void MainWindow::lightLEDs(int level){
+    
     auto noGlow = new QGraphicsDropShadowEffect(); // mem leak potential
     noGlow->setOffset(0);
     noGlow->setBlurRadius(0);
-
-    ui->blueButton->setChecked(false);
-    ui->greenButton->setChecked(false);
-    ui->redButton->setChecked(false);
-
     ui->blueButton->setGraphicsEffect(noGlow);
     ui->greenButton->setGraphicsEffect(noGlow);
     ui->redButton->setGraphicsEffect(noGlow);
-    auto effectG = new QGraphicsDropShadowEffect();
-    auto effectR = new QGraphicsDropShadowEffect();
-    auto effectB = new QGraphicsDropShadowEffect();
+    
     switch (level) {
-    case 0:
-
-        effectR->setOffset(.0);
-        effectR->setBlurRadius(20.0);
-        effectR->setColor(Qt::red);
-        ui->redButton->setGraphicsEffect(effectR);
-        break;
-    case 1:
-
-        effectB->setOffset(.0);
-        effectB->setBlurRadius(20.0);
-        effectB->setColor(Qt::blue);
-        ui->blueButton->setGraphicsEffect(effectB);
-        break;
-    case 2:
-
-        effectG->setOffset(.0);
-        effectG->setBlurRadius(20.0);
-        effectG->setColor(Qt::green);
-        ui->greenButton->setGraphicsEffect(effectG);
-        break;
-    default:
-        break;
+        case 0:
+            auto effectR = new QGraphicsDropShadowEffect();
+            effectR->setOffset(.0);
+            effectR->setBlurRadius(20.0);
+            effectR->setColor(Qt::red);
+            ui->redButton->setGraphicsEffect(effectR);
+            break;
+        case 1:
+            auto effectB = new QGraphicsDropShadowEffect();
+            effectB->setOffset(.0);
+            effectB->setBlurRadius(20.0);
+            effectB->setColor(Qt::blue);
+            ui->blueButton->setGraphicsEffect(effectB);
+            break;
+        case 2:
+            auto effectG = new QGraphicsDropShadowEffect();
+            effectG->setOffset(.0);
+            effectG->setBlurRadius(20.0);
+            effectG->setColor(Qt::green);
+            ui->greenButton->setGraphicsEffect(effectG);
+            break;
+        default:
+            break;
     }
+    
 }
 
-
-////Menu navigation helpers
-///
 //process menu selection/navigation
 void MainWindow::menuNavigation(int index){
 
     switch (index) {
-    case 1:
-        if (!ui->contactBox->isChecked()){
-            qInfo("Please attach sensor to start session");
-            return;
-        }
-        breathingTimer.start();
-        currentState = (*states)[2];//change state to session
-        currentSession = *currentState->createNewSession();
-        char msg4[18];
-        sprintf(msg4, "Session %d" ,currentSession->getID());
-        ui->menuLabel->setText(msg4);
-        setSessionVisible(true);
-        qInfo() << "Session started, press OK when you are ready to end";
-        break;
-    case 2:
-        currentState = (*states)[4];//change state to settings
-        updateMenu(currentState->menuTitle, currentState->menuOptions);//update menu option
-        break;
+        case 1:
+            if (!ui->contactBox->isChecked()){
+                qInfo("Please attach sensor to start session");
+                return;
+            }
+            breathingTimer.start();
+            currentState = (*states)[2];//change state to session
+            currentSession = *currentState->createNewSession();
+            char msg4[18];
+            sprintf(msg4, "Session %d" ,currentSession->getID());
+            ui->menuLabel->setText(msg4);
+            setSessionVisible(true);
+            qInfo() << "Session started, press OK when you are ready to end";
+            break;
+        case 2:
+            currentState = (*states)[4];//change state to settings
+            updateMenu(currentState->menuTitle, currentState->menuOptions);//update menu option
+            break;
 
-    case 3:
-        currentState = (*states)[5]; //change state to history
-        updateMenu(currentState->menuTitle, getHistoryList());//update menu options
-        break;
+        case 3:
+            currentState = (*states)[5]; //change state to history
+            updateMenu(currentState->menuTitle, getHistoryList());//update menu options
+            break;
 
-    case 4://reset selection
-        currentState = (*states)[5]; //state remains
-        updateMenu(currentState->menuTitle, currentState->menuOptions);//update menu options
-        break;
+        case 4://reset selection
+            currentState = (*states)[5]; //state remains
+            updateMenu(currentState->menuTitle, currentState->menuOptions);//update menu options
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
+    
 }
-
 
 QStringList MainWindow::getHistoryList(){
     QStringList hist;
@@ -476,7 +434,6 @@ QStringList MainWindow::getHistoryList(){
     QString base = "Session ";
     QString actual = "Session ";
     for (int var = 0; var < savedSessions.length(); var++) {
-
         //append to list
         actual.append(48+savedSessions.operator [](var)->getID());
         actual.append("                           " + savedSessions.operator [](var)->getDate());
@@ -495,7 +452,6 @@ void MainWindow::settingSelection(int index){
         currentState->setBreath(false);
         //display new menu here
         updateMenu("Reset Confirmation", {"Confirm", "Cancel"});
-
     //user has selected breath settings option
     }else if(index ==1){
         currentState->setReset(false);
@@ -530,9 +486,6 @@ void MainWindow::updateMenu(const QString selectedMenuItem, const QStringList me
     ui->menuLabel->setText(selectedMenuItem);
 }
 
-
-////Active Session
-///
 //pauses session if enable is falses, otherwise unpauses
 void MainWindow::pauseSession(bool enable){
     //pause it
@@ -552,6 +505,7 @@ void MainWindow::pauseSession(bool enable){
 
 //conforms UI to display the summary of a given session
 void MainWindow::displaySummary(Session* s){
+    
     int total = s->getTime()-4;
     if (total <=0){
         total =1;
@@ -595,10 +549,9 @@ void MainWindow::displaySummary(Session* s){
     ui->coherence->setText(msg6);
     int i = savedSessions.indexOf(s);
     currentState->setCurrentIndex(i);
+    
 }
 
-////Custom Plot functions
-///
 //switches screen to session mode by setting visibility, starts data timer
 void MainWindow::isolateGraphStart(){
     dataTimer.start(1000);
@@ -622,6 +575,7 @@ void MainWindow::fillGraph(QVector<float>* data){
 
 //gets HR data from sensor and updates the graph
 void MainWindow::onGraphRefresh(){
+    
     static QTime time(QTime::currentTime());
     float prevCOH = currentSession->getCurrentCoherence();;
     //get our data
@@ -668,15 +622,13 @@ void MainWindow::onGraphRefresh(){
     sprintf(msg2, "Time Elapsed: %ds" ,t);
     ui->sessionTime->setText(msg2);
 
-
     //add data to the graph
     ui->customPlot->graph(0)->addData(t, HR);
     ui->customPlot->xAxis->setRange(t, 32, Qt::AlignRight);
     ui->customPlot->replot();
+    
 }
 
-////other helpers
-///
 //process ui changes for main menu
 void MainWindow::setMenuVisible(bool enable){
     if (enable){
@@ -688,8 +640,8 @@ void MainWindow::setMenuVisible(bool enable){
     }else{
         activeQListWidget->setVisible(false);
     }
-
 }
+
 //process ui changes for summary
 void MainWindow::setSummaryVisible(bool enable){
     if (enable){
@@ -730,7 +682,6 @@ void MainWindow::setOffVisible(bool enable){
         ui->batteryBar->setVisible(false);
         ui->batteryLabel->setVisible(false);
         ui->menuLabel->setVisible(false);
-        //ui->contactBox->setEnabled(false);
         ui->contactBox->setChecked(false);
         dataTimer.stop();
         batteryTimer.stop();
@@ -744,10 +695,10 @@ void MainWindow::setOffVisible(bool enable){
         ui->batteryBar->setVisible(true);
         ui->batteryLabel->setVisible(true);
         ui->menuLabel->setVisible(true);
-        //ui->contactBox->setEnabled(true);
         batteryTimer.start();
     }
 }
+
 //process ui changes for session
 void MainWindow::setSessionVisible(bool enable){
     if (enable){
