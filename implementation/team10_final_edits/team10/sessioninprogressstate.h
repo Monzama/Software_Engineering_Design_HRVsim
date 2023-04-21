@@ -16,34 +16,31 @@
 class SessionInProgressState: public State
 {
 public:
-    SessionInProgressState(QString items, QString title);
-    void printSelection(QString selectedItem);
 
-    //state button press returns
+    SessionInProgressState(QString items, QString title);
+
     int handlePressPowerButton();
     int handlePressMenuButton();
     int handlePressBackButton();
-    int handlePressLeftButton();
-    int handlePressRightButton();
     int handlePressSelectorButton();
     void setSensor(bool enable);
     void endSession();
-    //session functions
-    Session** createNewSession();//as it says, returns the session for reference in mainWindow
-    int updateHRGraph(int breathRate);//returns next HR and updates session object
+
+    Session** createNewSession(); 
+    int updateHRGraph(int breathRate); //returns next HR, updates session object
+    
 private:
 
     float calculateCoherence(QVector<float>* hrData);
 
     Sensor* contactSensor;
     Session* currentSession;
-    int nextSessionId;//stores incremental session id
+    int nextSessionId;
     QString startTime;
     QTimer sessionTimer;
     int totalSessions;
-    int coherenceTimer;//how many seconds have passed since last coherence calcultation
+    int coherenceTimer; //seconds passed since last coherence calcultation
 
-    //breath pacer timer removed, stored as a ui element since it is optional for user.
 };
 
 #endif // SESSIONINPROGRESSSTATE_H
