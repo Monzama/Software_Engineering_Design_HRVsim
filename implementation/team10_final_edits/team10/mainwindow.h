@@ -80,5 +80,6 @@ private:
     void setUpStatesMenus();
     void pauseSession(bool enable);
     void updateMenu(const QString selectedMenuItem, const QStringList menuItems);
+    
 };
 #endif // MAINWINDOW_H
