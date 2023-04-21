@@ -12,8 +12,6 @@ public:
 
     SessionSummaryState(QString items, QString title);
 
-    int handlePressPowerButton();
-    int handlePressMenuButton();
     int handlePressBackButton();
     int handlePressSelectorButton();
 
