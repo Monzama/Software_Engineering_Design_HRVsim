@@ -10,3 +10,6 @@ State::State(QString items, QString title)
     this->menuTitle = title;
 
 }
+
+int State::handlePressPowerButton(){return 1;}
+int State::handlePressMenuButton(){return 1;}
