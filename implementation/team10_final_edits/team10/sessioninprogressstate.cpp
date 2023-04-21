@@ -1,26 +1,17 @@
 #include "sessioninprogressstate.h"
 
-SessionInProgressState::SessionInProgressState(QString items, QString title) : State (items, title)
-{
+SessionInProgressState::SessionInProgressState(QString items, QString title) : State (items, title){
     contactSensor = new Sensor();
     coherenceTimer = 0;
     totalSessions = 0;
     currentSession = NULL;
 }
 
-void SessionInProgressState::printSelection(QString selectedItem){
-    qInfo() << "you selected = " << selectedItem;
-}
-
-//state button press returns
 int SessionInProgressState::handlePressPowerButton(){return 2;}
 int SessionInProgressState::handlePressMenuButton(){return -1;}
 int SessionInProgressState::handlePressBackButton(){return -1;}
-int SessionInProgressState::handlePressLeftButton(){return -1;}
-int SessionInProgressState::handlePressRightButton(){return -1;}
 int SessionInProgressState::handlePressSelectorButton(){return 1;}
 
-//main session updater, for now at least
 int SessionInProgressState::updateHRGraph(int breathRate){
     //update any timers
     coherenceTimer++;
@@ -28,7 +19,6 @@ int SessionInProgressState::updateHRGraph(int breathRate){
     int HR = contactSensor->sendData(breathRate);
     //update session with new HR
     currentSession->update(HR);
-
     //calculate coherence if 5-seconds have passed
     if (coherenceTimer ==5){
         float newCoherence = calculateCoherence(currentSession->getHRData());
@@ -40,7 +30,6 @@ int SessionInProgressState::updateHRGraph(int breathRate){
 
 //calculates coherence based on HR up to 64 seconds of data
 float SessionInProgressState::calculateCoherence(QVector<float>* hrData){
-
     coherenceTimer =0;
     float avg = 0;
     int count=0;
@@ -49,7 +38,6 @@ float SessionInProgressState::calculateCoherence(QVector<float>* hrData){
         int index = hrData->length()-1;
         //iterate over max of 64 seconds
         for (int x = 0;x <=63; ++x) {
-
             //if we reach the start of list, stop
             if (index <0){break;}
             if (var==0){
@@ -82,5 +70,3 @@ Session** SessionInProgressState::createNewSession(){
     totalSessions++;
     return &currentSession;
 }
-
-
