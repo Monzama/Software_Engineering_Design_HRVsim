@@ -5,9 +5,6 @@ SessionSummaryState::SessionSummaryState(QString items, QString title) : State(i
     currentIndex = -1;
 }
 
-int SessionSummaryState::handlePressPowerButton(){return 1;}
-int SessionSummaryState::handlePressMenuButton(){return 1;}
-
 int SessionSummaryState::handlePressBackButton(){
     if (deleteOption){return 3;}
     return 2;
