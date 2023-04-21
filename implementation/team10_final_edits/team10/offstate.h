@@ -5,18 +5,15 @@
 #include <QDebug>
 #include "state.h"
 
-class OffState: public State
-{
-public:
-    OffState(QString items, QString title);
-    void printSelection(QString selectedItem);
+class OffState: public State{
 
-    //state button press returns
+public:
+    
+    OffState(QString items, QString title);
+
     int handlePressPowerButton();
     int handlePressMenuButton();
     int handlePressBackButton();
-    int handlePressLeftButton();
-    int handlePressRightButton();
     int handlePressSelectorButton();
 
 };
