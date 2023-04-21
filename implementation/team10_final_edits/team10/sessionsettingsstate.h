@@ -5,14 +5,12 @@
 #include <QDebug>
 #include "state.h"
 
-class SessionSettingsState: public State
-{
+class SessionSettingsState: public State {
+    
 public:
 
     SessionSettingsState(QString items, QString title);
-
-    int handlePressPowerButton();
-    int handlePressMenuButton();
+    
     int handlePressBackButton();
     int handlePressSelectorButton();
 
