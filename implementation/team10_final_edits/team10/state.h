@@ -10,15 +10,10 @@ class State : public QObject
 public:
 
     State(QString items, QString title);
-
-    virtual void printSelection(QString selectedItem) = 0;
-
     QStringList menuOptions;
     QString menuTitle;
 
-
-    //state button press returns
-    virtual int handlePressPowerButton() =0;
+    virtual int handlePressPowerButton() = 0;
     virtual int handlePressMenuButton() = 0;
     virtual int handlePressBackButton() = 0;
     virtual int handlePressLeftButton() = 0;
@@ -32,10 +27,9 @@ public:
     virtual void setReset(bool enable){}
     virtual void endSession(){}
 
-
     virtual int getCurrentIndex(){}
     virtual int setCurrentIndex(int i){}
-    virtual int  updateHRGraph(int breathRate){}
+    virtual int updateHRGraph(int breathRate){}
 
 };
 
