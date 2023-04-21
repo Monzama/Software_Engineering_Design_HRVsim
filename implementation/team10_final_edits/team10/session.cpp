@@ -1,6 +1,6 @@
 #include "session.h"
 #include <QDateTime>
-//constructor
+
 Session::Session(int id)
 {    
     elapsedTimeInSeconds=0;
