@@ -8,7 +8,7 @@
 #include <QListWidget>
 #include <iostream>
 #include <string.h>
-#include"qcustomplot.h"
+#include "qcustomplot.h"
 #include "state.h"
 #include "offstate.h"
 #include "mainmenustate.h"
