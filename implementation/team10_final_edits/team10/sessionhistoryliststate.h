@@ -10,9 +10,7 @@ class SessionHistoryListState: public State{
 public:
     
     SessionHistoryListState(QString items, QString title);
-
-    int handlePressPowerButton();
-    int handlePressMenuButton();
+    
     int handlePressBackButton();
     int handlePressSelectorButton();
 
