@@ -15,7 +15,7 @@
 #include "sessionsettingsstate.h"
 #include <random>
 #include "sessionsummarystate.h"
-//initialize our variables (mainly the data set)
+
 Sensor::Sensor(){
     currentDataPoint = 0;
     i = 39;
