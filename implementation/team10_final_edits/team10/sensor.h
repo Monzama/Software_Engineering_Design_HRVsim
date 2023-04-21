@@ -7,22 +7,25 @@
 #include <QWidget>
 #include <QListWidget>
 #include <iostream>
-class Sensor
-{
+
+class Sensor{
+    
 public:
+    
     Sensor();
-    //turns on HR contact sensor
+    // turns on HR contact sensor
     void connectSensor();
-    //generates and returns next HR data point
+    // generates and returns next HR data point
     int sendData(int breathRate);
-    //turns off HR contact sensor and returns null data(zeros)
+    // turns off HR contact sensor and returns null data(zeros)
     void simulateDisconnectSensor();
 
-
 private:
+    
     int currentDataPoint;
     int status;
     int i;
+    
 };
 
 #endif // SENSOR_H
