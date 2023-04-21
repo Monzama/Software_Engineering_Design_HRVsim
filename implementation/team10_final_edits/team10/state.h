@@ -18,16 +18,16 @@ public:
     virtual int handlePressBackButton() = 0;
     virtual int handlePressSelectorButton() = 0;
 
-    virtual Session** createNewSession(){}
-    virtual void setSensor(bool enable){}
-    virtual void setBreath(bool enable){}
-    virtual void setDelete(bool enable){}
-    virtual void setReset(bool enable){}
-    virtual void endSession(){}
+    virtual Session** createNewSession();
+    virtual void setSensor(bool enable);
+    virtual void setBreath(bool enable);
+    virtual void setDelete(bool enable);
+    virtual void setReset(bool enable);
+    virtual void endSession();
 
-    virtual int getCurrentIndex(){}
-    virtual int setCurrentIndex(int i){}
-    virtual int updateHRGraph(int breathRate){}
+    virtual int getCurrentIndex();
+    virtual int setCurrentIndex(int i);
+    virtual int updateHRGraph(int breathRate);
 
 };
 
