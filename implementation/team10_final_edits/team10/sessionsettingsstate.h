@@ -8,22 +8,22 @@
 class SessionSettingsState: public State
 {
 public:
-    SessionSettingsState(QString items, QString title);
-    void printSelection(QString selectedItem);
 
-    //state button press returns
+    SessionSettingsState(QString items, QString title);
+
     int handlePressPowerButton();
     int handlePressMenuButton();
     int handlePressBackButton();
-    int handlePressLeftButton();
-    int handlePressRightButton();
     int handlePressSelectorButton();
 
     void setReset(bool enable);
     void setBreath(bool enable);
+    
 private:
+
     bool breathSetting;
     bool resetConfirmation;
+    
 };
 
 #endif // SESSIONSETTINGSSTATE_H
