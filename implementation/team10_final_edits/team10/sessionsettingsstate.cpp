@@ -1,7 +1,6 @@
 #include "sessionsettingsstate.h"
 
-SessionSettingsState::SessionSettingsState(QString items, QString title) : State(items, title)
-{
+SessionSettingsState::SessionSettingsState(QString items, QString title) : State(items, title){
     breathSetting = false;
     resetConfirmation = false;
 }
@@ -19,8 +18,7 @@ int SessionSettingsState::handlePressBackButton(){
     }
     return 0;
 }
-int SessionSettingsState::handlePressLeftButton(){return -1;}
-int SessionSettingsState::handlePressRightButton(){return -1;}
+
 int SessionSettingsState::handlePressSelectorButton(){
     if (breathSetting){
         return 6;
