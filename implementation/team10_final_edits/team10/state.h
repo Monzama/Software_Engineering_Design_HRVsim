@@ -13,9 +13,9 @@ public:
     QStringList menuOptions;
     QString menuTitle;
 
-    virtual int handlePressPowerButton() = 0;
-    virtual int handlePressMenuButton() = 0;
-    virtual int handlePressBackButton() = 0;
+    virtual int handlePressPowerButton();
+    virtual int handlePressMenuButton();
+    virtual int handlePressBackButton() = 0
     virtual int handlePressSelectorButton() = 0;
 
     virtual Session** createNewSession();
