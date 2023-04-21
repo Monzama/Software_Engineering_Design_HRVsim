@@ -5,14 +5,6 @@ SessionSettingsState::SessionSettingsState(QString items, QString title) : State
     resetConfirmation = false;
 }
 
-void SessionSettingsState::printSelection(QString selectedItem){
-    qInfo() << "you selected = " << selectedItem;
-}
-
-//state button press returns
-int SessionSettingsState::handlePressPowerButton(){return 1;}
-int SessionSettingsState::handlePressMenuButton(){return 1;}
-
 int SessionSettingsState::handlePressBackButton(){
     if (breathSetting||resetConfirmation){
         return 1;
