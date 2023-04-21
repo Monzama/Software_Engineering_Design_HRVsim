@@ -1,5 +1,6 @@
 #ifndef MAINMENUSTATE_H
 #define MAINMENUSTATE_H
+
 #include <QMainWindow>
 #include <QString>
 #include <QDebug>
